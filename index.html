@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Bank Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container mx-auto flex justify-between py-5 items-center">
+      <div class="logo">
+        <h2 class="uppercase text-2xl font-semibold">
+          Simple <span class="text-emerald-500">Bank</span> App
+        </h2>
+      </div>
+
+      <p class="login-status hidden"></p>
+
+      <form class="login-form flex gap-5">
+        <input
+          type="text"
+          class="username border py-3 px-5 rounded-lg focus:border-emerald-500 outline-none duration-300"
+          placeholder="username"
+        />
+        <input
+          type="password"
+          class="password border py-3 px-5 rounded-lg focus:border-emerald-500 outline-none duration-300"
+          placeholder="password"
+        />
+        <button
+          type="submit"
+          class="login-btn bg-emerald-500 text-white py-3 px-5 rounded-lg hover:bg-emerald-600 duration-300"
+        >
+          Login
+        </button>
+      </form>
+
+      <button
+        class="logout-btn bg-rose-500 text-white py-3 px-5 rounded-lg hover:bg-rose-600 duration-300 hidden"
+      >
+        Logout
+      </button>
+    </header>
+
+    <main>
+      <section
+        class="bank-container container mx-auto my-20 flex justify-between gap-10 flex-wrap hidden"
+      >
+        <div
+          class="balance-box bg-sky-500 text-white text-2xl p-10 rounded-lg flex flex-col gap-5 w-[20rem]"
+        >
+          <h2>Total Balance</h2>
+          <p class="text-4xl">$<span class="total-balance">0</span></p>
+        </div>
+
+        <div
+          class="widthdraw-box bg-rose-500 text-white text-2xl p-10 rounded-lg flex flex-col gap-5 w-[20rem]"
+        >
+          <h2>Widthdraw Money</h2>
+          <form>
+            <input
+              type="number"
+              class="widthdraw-input bg-transparent border py-3 px-5 rounded outline-none w-full"
+            />
+          </form>
+        </div>
+
+        <div
+          class="deposit-box text-white text-2xl p-10 rounded-lg flex flex-col gap-5 bg-emerald-500 w-[20rem]"
+        >
+          <h2>Deposit Money</h2>
+          <form>
+            <input
+              type="number"
+              class="deposit-input bg-transparent border py-3 px-5 rounded outline-none w-full"
+            />
+          </form>
+        </div>
+
+        <div
+          class="loan-box text-white text-2xl p-10 rounded-lg flex flex-col gap-5 bg-violet-500 w-[20rem]"
+        >
+          <h2>Loan Money</h2>
+          <form>
+            <input
+              type="number"
+              class="loan-input bg-transparent border py-3 px-5 rounded outline-none w-full"
+            />
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
