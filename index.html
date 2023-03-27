@@ -52,7 +52,7 @@
           class="balance-box bg-sky-500 text-white text-2xl p-10 rounded-lg flex flex-col gap-5 w-[20rem]"
         >
           <h2>Total Balance</h2>
-          <p class="text-4xl">$<span class="total-balance">2500</span></p>
+          <p class="text-4xl">$<span class="total-balance">0</span></p>
         </div>
 
         <div
@@ -89,6 +89,36 @@
               class="loan-input bg-transparent border py-3 px-5 rounded outline-none w-full"
             />
           </form>
+        </div>
+      </section>
+
+      <section
+        class="history container mx-auto hidden flex justify-between gap-10 flex-wrap"
+      >
+        <div class="deposit-history flex flex-col gap-5 border p-5 rounded-lg">
+          <h2 class="text-xl">
+            Total Deposits: $<span class="total-deposit-amount">0</span>
+          </h2>
+
+          <div class="deposit-slots flex flex-col gap-3"></div>
+        </div>
+
+        <div
+          class="widthdraw-history flex flex-col gap-5 border p-5 rounded-lg"
+        >
+          <h2 class="text-xl">
+            Total Widthdraws: $<span class="total-widthdraw-amount">0</span>
+          </h2>
+
+          <div class="widthdraw-slots flex flex-col gap-3"></div>
+        </div>
+
+        <div class="loan-history flex flex-col gap-5 border p-5 rounded-lg">
+          <h2 class="text-xl">
+            Total Loans: $<span class="total-loan-amount">0</span>
+          </h2>
+
+          <div class="loan-slots flex flex-col gap-3"></div>
         </div>
       </section>
     </main>

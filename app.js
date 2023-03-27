@@ -13,10 +13,22 @@ const widthdrawForm = document.querySelector(".widthdraw-form");
 const widthdrawInput = document.querySelector(".widthdraw-input");
 const loanForm = document.querySelector(".loan-form");
 const loanInput = document.querySelector(".loan-input");
+const historySection = document.querySelector(".history");
+const depositSlots = document.querySelector(".deposit-slots");
+const widthdrawSlots = document.querySelector(".widthdraw-slots");
+const loanSlots = document.querySelector(".loan-slots");
+const totalDepositContainer = document.querySelector(".total-deposit-amount");
+const totalWidthdrawContainer = document.querySelector(
+  ".total-widthdraw-amount"
+);
+const totalLoanContainer = document.querySelector(".total-loan-amount");
 
 // USERNAME & PASSWORD
 const USERNAME = "admin";
 const PASSWORD = "admin";
+
+// HISTORY CONTAINER
+const historyArr = [];
 
 // LOGIN EVENT HANDLER
 btnLogin.addEventListener("click", (e) => {
@@ -30,6 +42,7 @@ btnLogin.addEventListener("click", (e) => {
     bankContainer.classList.remove("hidden");
     loginForm.classList.add("hidden");
     btnLogout.classList.remove("hidden");
+    historySection.classList.remove("hidden");
   } else {
     renderStatusMessage("Incorrect username or password!", "text-rose-500");
   }
@@ -44,6 +57,7 @@ btnLogout.addEventListener("click", () => {
   bankContainer.classList.add("hidden");
   loginForm.classList.remove("hidden");
   btnLogout.classList.add("hidden");
+  historySection.classList.add("hidden");
 });
 
 // RENDER STATUS MESSAGE
@@ -69,6 +83,25 @@ depositForm.addEventListener("submit", (e) => {
   const amount = Number(depositInput.value);
 
   if (amount >= 1) {
+    // send deposit object to history array
+    const depositObj = {
+      type: "Deposit",
+      amount,
+      time: new Date().toISOString(),
+    };
+
+    historyArr.push(depositObj);
+
+    const deposits = filterHistory(historyArr, "Deposit");
+    renderSlot(depositSlots, deposits, "emerald");
+
+    // calculating total deposit amount
+    const totalDepositAmount = deposits.reduce(
+      (acc, dp) => (acc += dp.amount),
+      0
+    );
+    totalDepositContainer.textContent = totalDepositAmount;
+
     // successfull deposit
     const prevBalance = Number(totalBalanceContainer.textContent);
     const currBalance = prevBalance + amount;
@@ -101,6 +134,25 @@ widthdrawForm.addEventListener("submit", (e) => {
   const prevBalance = Number(totalBalanceContainer.textContent);
 
   if (amount >= 1 && amount <= prevBalance) {
+    // send widthdraw object to history array
+    const widthdrawObj = {
+      type: "Widthdraw",
+      amount,
+      time: new Date().toISOString(),
+    };
+
+    historyArr.push(widthdrawObj);
+
+    const widthdraws = filterHistory(historyArr, "Widthdraw");
+    renderSlot(widthdrawSlots, widthdraws, "amber");
+
+    // calculating total widthdraw amount
+    const totalWidthdrawAmount = widthdraws.reduce(
+      (acc, wd) => (acc += wd.amount),
+      0
+    );
+    totalWidthdrawContainer.textContent = totalWidthdrawAmount;
+
     // successfull widthdraw
     const currBalance = prevBalance - amount;
     totalBalanceContainer.textContent = currBalance;
@@ -133,6 +185,22 @@ loanForm.addEventListener("submit", (e) => {
   const estimatedLoanAmount = prevBalance * (prevBalance / 100) * 10;
 
   if (amount >= 0 && amount <= estimatedLoanAmount) {
+    // send loan object to history array
+    const loanObj = {
+      type: "Loan",
+      amount,
+      time: new Date().toISOString(),
+    };
+
+    historyArr.push(loanObj);
+
+    const loans = filterHistory(historyArr, "Loan");
+    renderSlot(loanSlots, loans, "violet");
+
+    // calculating total loan amount
+    const totalLoanAmount = loans.reduce((acc, ln) => (acc += ln.amount), 0);
+    totalLoanContainer.textContent = totalLoanAmount;
+
     //success
     const currBalance = prevBalance + amount;
     totalBalanceContainer.textContent = currBalance;
@@ -151,3 +219,28 @@ loanForm.addEventListener("submit", (e) => {
     loanInput.blur();
   }
 });
+
+// RENDER HISTORY
+function filterHistory(arr, text) {
+  return arr.filter((obj) => obj.type === text);
+}
+
+// RENDER SLOT
+function renderSlot(slotsEl, arr, color) {
+  slotsEl.textContent = "";
+
+  arr.forEach((obj) => {
+    const template = `
+        <div class="slot flex gap-3 bg-${color}-50 p-3 border border-${color}-500 rounded">
+          <p class="slot-amount font-medium text-${color}-500">
+            $${obj.amount}
+          </p>
+          <p class="slot-time text-gray-600">${new Date(
+            obj.time
+          ).toLocaleDateString()} ${new Date(obj.time).toLocaleTimeString()}</p>
+        </div>
+      `;
+
+    slotsEl.insertAdjacentHTML("afterbegin", template);
+  });
+}
